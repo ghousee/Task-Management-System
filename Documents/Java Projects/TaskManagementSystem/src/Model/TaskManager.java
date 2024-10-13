@@ -12,14 +12,18 @@ import java.util.List;
  */
 public class TaskManager {
     private List<Task> tasks;
+    private List<User> users;
     
     public TaskManager(){
         this.tasks = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
     
     public void addTask(Task task){
         tasks.add(task);
     }
+    
+
     
     public List<Task> getTasks(){
         return tasks;
@@ -54,5 +58,11 @@ public class TaskManager {
         return userTasks;
     }
     
+    
+    private int nextTaskId = 1;
+    
+    public int getNextTaskId(){
+        return nextTaskId++;
+    }
     
 }
