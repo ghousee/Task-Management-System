@@ -7,9 +7,16 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Model.*;
+import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import View.MainFrame;
 
 
 /**
@@ -17,14 +24,24 @@ import javax.swing.table.DefaultTableModel;
  * @author NATE
  */
 public class UserPage extends javax.swing.JPanel {
+    String username;
+    private JList<String> taskList;
+    private DefaultListModel<String> taskListModel;
+//    private JButton btnAddTask, btnEditTask, btnDeleteTask;
     private DefaultTableModel tableModel;
+    private TaskManager taskManager;
+    private JTable taskTable;
 
     /**
      * Creates new form UserPage
      */
-    public UserPage() {
+    public UserPage(TaskManager taskManager, String username) {
+        this.taskManager = taskManager;
+        this.username = username;
         initComponents();
-        tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel(new Object[]{"Name", "Description", "Priority", "Deadline", "Status", "Assigned User"}, 0);
+        taskTable = new JTable(tableModel);
+        jScrollPane1.setViewportView(taskTable);
     }
     
     public void displayTasks(List<Task> tasks){
@@ -46,9 +63,11 @@ public class UserPage extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDetails = new javax.swing.JTextArea();
         btnLoginPage = new javax.swing.JButton();
-        cmbTasks = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        btnAddTask = new javax.swing.JButton();
+        btnEditTask = new javax.swing.JButton();
+        btnDeleteTask = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(206, 206, 239));
 
@@ -57,14 +76,38 @@ public class UserPage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(txtDetails);
 
         btnLoginPage.setText("HOME");
-
-        cmbTasks.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Create", "Edit", "Delete" }));
+        btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginPageActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("TASKS");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setText("USER PANEL");
+
+        btnAddTask.setText("Add");
+        btnAddTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTaskActionPerformed(evt);
+            }
+        });
+
+        btnEditTask.setText("Edit");
+        btnEditTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditTaskActionPerformed(evt);
+            }
+        });
+
+        btnDeleteTask.setText("Delete");
+        btnDeleteTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTaskActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -73,16 +116,20 @@ public class UserPage extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(52, 52, 52)
-                        .addComponent(cmbTasks, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addGap(80, 80, 80)
                             .addComponent(btnLoginPage))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(70, 70, 70)
+                        .addComponent(btnAddTask)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditTask)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteTask)))
                 .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
@@ -92,20 +139,69 @@ public class UserPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLoginPage)
                     .addComponent(jLabel2))
-                .addGap(48, 48, 48)
+                .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbTasks, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnAddTask)
+                    .addComponent(btnDeleteTask)
+                    .addComponent(btnEditTask))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
+        // TODO add your handling code here:
+        
+        String taskName = JOptionPane.showInputDialog("Enter task:");
+        String taskDescription = JOptionPane.showInputDialog("Enter task description:");
+        String taskPriority = JOptionPane.showInputDialog("Enter task priority(Low,Medium,High):");
+        Date taskDeadline = new Date();
+        String taskStatus = "Pending";
+        String assignedUser = username;
+        
+        Task newTask = new Task(taskManager.getNextTaskId(),taskName, taskDescription, taskPriority, taskDeadline, taskStatus, assignedUser);
+        
+        List<Task> userTasks = taskManager.getTasksForUser(username);
+        displayTasks(userTasks);
+    }//GEN-LAST:event_btnAddTaskActionPerformed
+
+    private void btnEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTaskActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = taskTable.getSelectedRow();
+        if(selectedRow >= 0){
+//            String taskName = tableModel.getValueAt(selectedRow, 0).toString();
+//            String taskDescription = tableModel.getValueAt(selectedRow, 1).toString();
+//            String taskPriority = tableModel.getValueAt(selectedRow, 2).toString();
+//            String taskDeadline = tableModel.getValueAt(selectedRow, 3).toString();
+//            String taskStatus = tableModel.getValueAt(selectedRow, 4).toString();
+//            String assignedUser = tableModel.getValueAt(selectedRow, 5).toString();
+            
+
+        
+        }
+    }//GEN-LAST:event_btnEditTaskActionPerformed
+
+    private void btnDeleteTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTaskActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteTaskActionPerformed
+
+    private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed
+        // TODO add your handling code here:
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+        
+        CardLayout cl = mainFrame.getCardLayout();
+        JPanel mainPanel = mainFrame.getMainPanel();
+        cl.show(mainPanel,"LoginPanel");
+    }//GEN-LAST:event_btnLoginPageActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddTask;
+    private javax.swing.JButton btnDeleteTask;
+    private javax.swing.JButton btnEditTask;
     private javax.swing.JButton btnLoginPage;
-    private javax.swing.JComboBox<String> cmbTasks;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
