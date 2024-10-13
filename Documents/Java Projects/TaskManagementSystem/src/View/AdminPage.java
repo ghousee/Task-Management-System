@@ -7,18 +7,33 @@ package View;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import Model.*;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author NATE
  */
 public class AdminPage extends javax.swing.JPanel {
+    private DefaultTableModel tableModel;
     /**
      * Creates new form AdminPage
      */
     public AdminPage() {
         initComponents();
+        tableModel = new DefaultTableModel();
     }
+    
+    public void displayTasks(List<Task> tasks){
+        tableModel.setRowCount(0);
+        for(Task task : tasks){
+            Object[] row = {task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()};
+            tableModel.addRow(row);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -118,7 +133,8 @@ public class AdminPage extends javax.swing.JPanel {
         MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
         
         CardLayout cl = mainFrame.getCardLayout();
-        cl.show(mainFrame.getMainPanel(), "LoginPanel");
+        JPanel mainPanel = mainFrame.getMainPanel();
+        cl.show(mainPanel,"LoginPanel");
     }//GEN-LAST:event_btnLoginPageActionPerformed
 
 
@@ -131,4 +147,8 @@ public class AdminPage extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtdetails;
     // End of variables declaration//GEN-END:variables
+
+    public void displayAllTasks(List<Task> tasks) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

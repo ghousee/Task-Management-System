@@ -44,5 +44,15 @@ public class TaskManager {
         }
     }
     
+    public List<Task> getTasksForUser(String username){
+        List<Task> userTasks = new ArrayList<>();
+        for(Task task : tasks){
+            if(task.getAssignedUser().equals(username)){
+                userTasks.add(task);
+            }
+        }
+        return userTasks;
+    }
+    
     
 }
