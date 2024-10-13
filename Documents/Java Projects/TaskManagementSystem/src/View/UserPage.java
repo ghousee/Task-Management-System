@@ -3,20 +3,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package View;
+import java.awt.CardLayout;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import Model.*;
+import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
  * @author NATE
  */
 public class UserPage extends javax.swing.JPanel {
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form UserPage
      */
     public UserPage() {
         initComponents();
+        tableModel = new DefaultTableModel();
     }
-
+    
+    public void displayTasks(List<Task> tasks){
+        tableModel.setRowCount(0);
+        for(Task task : tasks){
+            Object[] row = {task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()};
+            tableModel.addRow(row);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

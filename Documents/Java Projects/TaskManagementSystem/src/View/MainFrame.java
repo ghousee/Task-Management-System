@@ -7,12 +7,20 @@ package View;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import Controller.TaskController;
+import View.AdminPage;
+import View.UserPage;
+
 
 /**
  *
  * @author NATE
  */
 public class MainFrame extends javax.swing.JFrame {
+    private TaskController taskController;
+    private AdminPage adminPage;
+    private UserPage userPage;
+    private String userRole;
     
     private CardLayout cl;
     /**
@@ -21,13 +29,21 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
+        adminPage = new AdminPage();
+        userPage = new UserPage();
+        
+        taskController = new TaskController(adminPage, userPage);
+        
         cl = new CardLayout();
         mainPanel.setLayout(cl);
         
         mainPanel.add(loginPanel, "LoginPanel");
-        AdminPage adminPage = new AdminPage();
-        mainPanel.add(adminPage, "Admin Page");
+        mainPanel.add(adminPage, "AdminPage");
+        mainPanel.add(userPage,"UserPage");
+        
     }
+    
+    
 
     MainFrame(JPanel mainPanel) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -151,13 +167,34 @@ public class MainFrame extends javax.swing.JFrame {
         String password = txtPassword.getText();
         
         if (username.equals("admin") && password.equals("password")) {
+            userRole = "Admin";
             JOptionPane.showMessageDialog(this, "Login successful");
-            cl.show(mainPanel, "Admin Page");
+//            cl.show(mainPanel, "AdminPage");
+            taskController.displayAllTasks();
+//            mainPanel.add(adminPage);
+            cl.show(mainPanel,"AdminPage");
+            }
+//            else {
+//                taskController.displayUserTasks(username);
+//                mainPanel.removeAll();
+//                mainPanel.add(userPage);
+//                mainPanel.revalidate();
+//                mainPanel.repaint();
+//            }
+
             
-        } 
         else {
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
+//        if(userRole.equals("Admin")){
+//            setContentPane(adminPage);
+//        }
+//        else{
+//            setContentPane(userPage);
+//        }
+        
+//        revalidate();
+//        repaint();
     }//GEN-LAST:event_btnLoginActionPerformed
 public CardLayout getCardLayout(){
     return cl;
