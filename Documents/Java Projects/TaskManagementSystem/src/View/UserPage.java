@@ -75,7 +75,7 @@ public class UserPage extends javax.swing.JPanel {
         txtDetails.setRows(5);
         jScrollPane1.setViewportView(txtDetails);
 
-        btnLoginPage.setText("HOME");
+        btnLoginPage.setText("LOGIN");
         btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginPageActionPerformed(evt);
@@ -116,12 +116,11 @@ public class UserPage extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(80, 80, 80)
-                            .addComponent(btnLoginPage))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(139, 139, 139)
+                        .addComponent(jLabel2)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnLoginPage))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(70, 70, 70)
@@ -131,6 +130,7 @@ public class UserPage extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(btnDeleteTask)))
                 .addGap(76, 76, 76))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,9 +145,8 @@ public class UserPage extends javax.swing.JPanel {
                     .addComponent(btnAddTask)
                     .addComponent(btnDeleteTask)
                     .addComponent(btnEditTask))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -163,6 +162,8 @@ public class UserPage extends javax.swing.JPanel {
         
         Task newTask = new Task(taskManager.getNextTaskId(),taskName, taskDescription, taskPriority, taskDeadline, taskStatus, assignedUser);
         
+        taskManager.addTask(newTask);
+        
         List<Task> userTasks = taskManager.getTasksForUser(username);
         displayTasks(userTasks);
     }//GEN-LAST:event_btnAddTaskActionPerformed
@@ -171,20 +172,41 @@ public class UserPage extends javax.swing.JPanel {
         // TODO add your handling code here:
         int selectedRow = taskTable.getSelectedRow();
         if(selectedRow >= 0){
-//            String taskName = tableModel.getValueAt(selectedRow, 0).toString();
-//            String taskDescription = tableModel.getValueAt(selectedRow, 1).toString();
-//            String taskPriority = tableModel.getValueAt(selectedRow, 2).toString();
-//            String taskDeadline = tableModel.getValueAt(selectedRow, 3).toString();
-//            String taskStatus = tableModel.getValueAt(selectedRow, 4).toString();
-//            String assignedUser = tableModel.getValueAt(selectedRow, 5).toString();
+            String taskName = tableModel.getValueAt(selectedRow, 0).toString();
             
-
-        
+            Task task = taskManager.getTaskByName(taskName);
+            if(task != null){
+                task.setName(JOptionPane.showInputDialog("Edit task name:", task.getName()));
+                task.setDescription(JOptionPane.showInputDialog("Edit task description:", task.getDescription()));
+                task.setPriority(JOptionPane.showInputDialog("Edit task priority:", task.getPriority()));
+                
+                List<Task> userTasks = taskManager.getTaskForUser(username);
+                displayTasks(userTasks);
+            }
+           }else{
+            JOptionPane.showMessageDialog(this,"Select task to edit");
         }
     }//GEN-LAST:event_btnEditTaskActionPerformed
 
     private void btnDeleteTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTaskActionPerformed
         // TODO add your handling code here:
+        int selectedRow = taskTable.getSelectedRow();
+        
+        if(selectedRow >= 0){
+            String taskName = tableModel.getValueAt(selectedRow,0).toString();
+            
+            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this task?");
+            
+            if(confirmation == JOptionPane.YES_OPTION){
+                taskManager.deleteTaskByName(taskName);
+                
+                List<Task> userTasks = taskManager.getTaskForUser(username);
+                displayTasks(userTasks);
+            }
+        } else {
+            
+            JOptionPane.showMessageDialog(this,"Select a task to delete");
+        }
     }//GEN-LAST:event_btnDeleteTaskActionPerformed
 
     private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed

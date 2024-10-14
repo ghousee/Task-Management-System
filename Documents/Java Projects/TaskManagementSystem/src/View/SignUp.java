@@ -7,7 +7,7 @@ package View;
 import Model.TaskManager;
 import Model.User;
 
-
+import View.MainFrame;
 import java.awt.*;
 
 import javax.swing.*;
@@ -28,6 +28,8 @@ public class SignUp extends javax.swing.JPanel {
         this.taskManager = taskManager;
         this.mainFrame = mainFrame;
         initComponents();
+//                userPage = new UserPage(taskManager, username);
+
 //        TaskManager taskManager = new TaskManager();
 
     }
@@ -67,6 +69,8 @@ public class SignUp extends javax.swing.JPanel {
         if(role.equalsIgnoreCase("Admin")){
             mainFrame.showAdminPage();
         } else if(role.equalsIgnoreCase("User")){
+//            userPage = new UserPage(taskManager, username);
+//            mainFrame.getMainPanel().add(userPage, "userPage");
             mainFrame.showUserPage();
         } else {
             JOptionPane.showMessageDialog(this, "Enter proper role.");
@@ -116,6 +120,7 @@ public class SignUp extends javax.swing.JPanel {
         txtPassword = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         txtRole = new javax.swing.JTextField();
+        btnLoginPage = new javax.swing.JButton();
 
         setLayout(new java.awt.CardLayout());
 
@@ -135,11 +140,21 @@ public class SignUp extends javax.swing.JPanel {
 
         jLabel4.setText("Role:");
 
+        btnLoginPage.setText("LOGIN");
+        btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginPageActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout signUpPanelLayout = new javax.swing.GroupLayout(signUpPanel);
         signUpPanel.setLayout(signUpPanelLayout);
         signUpPanelLayout.setHorizontalGroup(
             signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, signUpPanelLayout.createSequentialGroup()
+                .addContainerGap(298, Short.MAX_VALUE)
+                .addComponent(btnLoginPage)
+                .addGap(30, 30, 30))
             .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(signUpPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -163,7 +178,10 @@ public class SignUp extends javax.swing.JPanel {
         );
         signUpPanelLayout.setVerticalGroup(
             signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(signUpPanelLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(btnLoginPage)
+                .addContainerGap(259, Short.MAX_VALUE))
             .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(signUpPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -202,8 +220,18 @@ public class SignUp extends javax.swing.JPanel {
 //    mainFrame.showAdminPage();
     }//GEN-LAST:event_btnSubmitActionPerformed
 
+    private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed
+        // TODO add your handling code here:
+        MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+        
+        CardLayout cl = mainFrame.getCardLayout();
+        JPanel mainPanel = mainFrame.getMainPanel();
+        cl.show(mainPanel,"LoginPanel");
+    }//GEN-LAST:event_btnLoginPageActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLoginPage;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

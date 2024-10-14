@@ -23,6 +23,15 @@ public class TaskManager {
         tasks.add(task);
     }
     
+    public void deleteTaskByName(String name){
+        for(int i = 0; i < tasks.size(); i++){
+            if(tasks.get(i).getName().equals(name)){
+                tasks.remove(i);
+                break;
+            }
+        }
+    }
+    
 
     
     public List<Task> getTasks(){
@@ -38,6 +47,7 @@ public class TaskManager {
         }
         return userTasks;
     }
+    
     public void updateTask(Task updatedTask){
         for(int i = 0; i < tasks.size(); i++){
             Task existingTask = tasks.get(i);
@@ -46,6 +56,36 @@ public class TaskManager {
                 return;
             }
         }
+    }
+    
+    public void deleteTask(String name){
+        for(int i = 0; i < tasks.size(); i++){
+            Task task = tasks.get(i);
+            if(task.getName().equals(name)){
+                tasks.remove(i);
+                break;
+            }
+        }
+    }
+    
+    public void editTask(String currentName, String newName, String description, String priority){
+        for(Task task : tasks){
+            if(task.getName().equals(currentName)){
+                task.setName(newName);
+                task.setDescription(description);
+                task.setPriority(priority);
+                break;
+            }
+        }
+    }
+    
+    public Task getTaskByName(String name){
+        for(Task task : tasks){
+            if(task.getName().equals(name)){
+                return task;
+            }
+        }
+        return null;
     }
     
     public List<Task> getTasksForUser(String username){
