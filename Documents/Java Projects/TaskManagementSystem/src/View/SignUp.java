@@ -67,13 +67,14 @@ public class SignUp extends javax.swing.JPanel {
         clearFields();
         
         if(role.equalsIgnoreCase("Admin")){
-            mainFrame.showAdminPage();
+            
+            mainFrame.showAdminPage(username);
         } else if(role.equalsIgnoreCase("User")){
 //            userPage = new UserPage(taskManager, username);
 //            mainFrame.getMainPanel().add(userPage, "userPage");
-            mainFrame.showUserPage();
+            mainFrame.showUserPage(username);
         } else {
-            JOptionPane.showMessageDialog(this, "Enter proper role.");
+            JOptionPane.showMessageDialog(this, "Enter proper role(Admin/User):");
         }
     }
     
@@ -93,7 +94,7 @@ public class SignUp extends javax.swing.JPanel {
     }
 
     private boolean isUsernameTaken(String username) {
-        for (User user : User.getUsers()) { //check here mistake
+        for (User user : User.getUsers()) {
             if (user.getUsername().equals(username)) {
                 return true;
             }
@@ -138,9 +139,9 @@ public class SignUp extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setText("Role:");
+        jLabel4.setText("Role(Admin/User):");
 
-        btnLoginPage.setText("LOGIN");
+        btnLoginPage.setText("HOME");
         btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginPageActionPerformed(evt);
@@ -155,6 +156,10 @@ public class SignUp extends javax.swing.JPanel {
                 .addContainerGap(298, Short.MAX_VALUE)
                 .addComponent(btnLoginPage)
                 .addGap(30, 30, 30))
+            .addGroup(signUpPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(signUpPanelLayout.createSequentialGroup()
                     .addContainerGap()
@@ -166,7 +171,6 @@ public class SignUp extends javax.swing.JPanel {
                                 .addComponent(jLabel1))
                             .addGroup(signUpPanelLayout.createSequentialGroup()
                                 .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
@@ -181,15 +185,15 @@ public class SignUp extends javax.swing.JPanel {
             .addGroup(signUpPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(btnLoginPage)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addContainerGap(225, Short.MAX_VALUE))
             .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(signUpPanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jLabel1)
                     .addGap(24, 24, 24)
-                    .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addGroup(signUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)

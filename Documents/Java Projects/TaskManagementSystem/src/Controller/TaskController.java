@@ -48,4 +48,11 @@ public class TaskController {
     public void setUserPage(UserPage userPage){
         this.userPage = userPage;
     }
+    
+    public void addTask(String name, String description, String priority, Date deadline, String status, String assignedUser) {
+    taskManager.addTask(name, description, priority, deadline, status, assignedUser);
+    
+    displayUserTasks(assignedUser);
+    }
+
 }

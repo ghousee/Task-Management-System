@@ -10,6 +10,7 @@ import java.util.Date;
  * @author mgmoh
  */
 public class Task {
+    private int nextTaskId = 1;
     private int id;
     private String name;
     private String description;
@@ -28,8 +29,20 @@ public class Task {
         this.assignedUser = assignedUser;
     }
 
+    public int getNextTaskId() {
+        return nextTaskId;
+    }
+
+    public void setNextTaskId(int nextTaskId) {
+        this.nextTaskId = nextTaskId;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setAssignedUser(String assignedUser) {
+        this.assignedUser = assignedUser;
     }
 
     public void setId(int id) {
@@ -79,6 +92,5 @@ public class Task {
     public String getAssignedUser(){
         return assignedUser;
     }
-    
     
 }
