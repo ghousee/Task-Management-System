@@ -21,12 +21,13 @@ import java.util.List;
  */
 public class TaskManager {
     private List<Task> tasks;
-    private List<User> users;
+//    private List<User> users;
     private int nextTaskId = 1;
 
     
     public TaskManager(){
         tasks = new ArrayList<>();
+//        users = new ArrayList<>();
     }
     
     public void addTask(String name, String description, String priority, Date deadline, String status, String assignedUser){
@@ -51,26 +52,32 @@ public class TaskManager {
     }
     
     public void addUser(String username, String password, String role){
-        for(User user : users){
+
+        for(User user : User.getUsers()){
             if(user.getUsername().equals(username)){
                 System.out.println("taskManager(addUser) Username already exists: " + username);
                 return;
             }
         }
+        
         User newUser = new User(username, password, role);
-        users.add(newUser);
+        User.addUser(newUser);
         System.out.println("TaskManager(addUser) User Added: " + username);
-        System.out.println("TaskManager(addUser) Total users: " + users.size());
+        System.out.println("TaskManager(addUser) Total users: " + User.getUsers().size());
 
     }
     
     public User getUserByUsernameAndPassword(String username, String password) {
-        for (User user : users) {
+        for (User user : User.getUsers()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 return user;
             }
         }
         return null;
+    }
+    
+    public List<User> getUsers(){
+        return User.getUsers();
     }
     
 

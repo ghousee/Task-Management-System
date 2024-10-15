@@ -16,7 +16,9 @@ import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import View.UserPage;
-
+import java.util.ArrayList;
+import java.util.Date;
+import View.UserPage;
 
 
 /**
@@ -54,7 +56,7 @@ public class AdminPage extends javax.swing.JPanel {
         System.out.println("Tasks retrieved:" + tasks.size());
         
         for(Task task : tasks){
-            Object[] row = {task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()};
+            Object[] row = {task.getId(),task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()};
             System.out.println("Row data: " + Arrays.toString(row));
             tableModel.addRow(row);  
         }
@@ -80,6 +82,7 @@ public class AdminPage extends javax.swing.JPanel {
         txtdetails = new javax.swing.JTextArea();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        addBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(247, 245, 195));
         setLayout(new java.awt.CardLayout());
@@ -115,6 +118,13 @@ public class AdminPage extends javax.swing.JPanel {
             }
         });
 
+        addBtn.setText("ADD");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout adminPanelLayout = new javax.swing.GroupLayout(adminPanel);
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
@@ -123,14 +133,18 @@ public class AdminPage extends javax.swing.JPanel {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                .addContainerGap(244, Short.MAX_VALUE)
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
                     .addGroup(adminPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(adminPanelLayout.createSequentialGroup()
+                        .addGap(210, 210, 210)
+                        .addComponent(addBtn)
+                        .addGap(42, 42, 42)
                         .addComponent(btnEdit)
-                        .addGap(76, 76, 76)
+                        .addGap(41, 41, 41)
                         .addComponent(btnDelete)
-                        .addGap(81, 81, 81)
+                        .addGap(33, 33, 33)
                         .addComponent(btnLoginPage)))
                 .addGap(47, 47, 47))
             .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +162,8 @@ public class AdminPage extends javax.swing.JPanel {
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLoginPage)
                     .addComponent(btnEdit)
-                    .addComponent(btnDelete))
+                    .addComponent(btnDelete)
+                    .addComponent(addBtn))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                 .addContainerGap())
@@ -207,7 +222,9 @@ public class AdminPage extends javax.swing.JPanel {
         int selectedRow = taskTable.getSelectedRow();
 
         if(selectedRow >= 0){
-            int taskId = Integer.parseInt(tableModel.getValueAt(selectedRow,0).toString());
+            
+            String taskIdString = tableModel.getValueAt(selectedRow, 0).toString();
+            int taskId = Integer.parseInt(taskIdString.replaceAll("\\D+",""));
             Task task = taskManager.getTaskById(taskId);
             
             if(task!=null){
@@ -221,12 +238,61 @@ public class AdminPage extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this,"Select Task to delete");
             }
         }
-            
-            
+           
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+//    public List<String> getAllUsernames(){
+//        List<String> usernames = new ArrayList<>();
+//        for(User user : users){
+//            usernames.add(user.getUsername());
+//        }
+//    }
+    
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+        // TODO add your handling code here:
+
+        Date taskDeadline = new Date();
+        
+        List<User> users = taskManager.getUsers();
+        
+        if(users == null || users.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No users available");
+            return;
+          
+        }
+        String[] usernames = new String[users.size()];
+        
+        for(int i = 0;i < users.size(); i++){
+            usernames[i] = users.get(i).getUsername();
+        }
+        
+        String taskName = JOptionPane.showInputDialog(this,"Enter Task name:");
+        String taskDescription = JOptionPane.showInputDialog(this,"Enter Task description:");
+        String taskPriority = JOptionPane.showInputDialog(this,"Enter Task priority:");
+        String assignedUser = (String) JOptionPane.showInputDialog(this, "Select the user to assign the task to:", "Assign User", JOptionPane.PLAIN_MESSAGE,null, usernames, usernames[0]);
+        
+        if(assignedUser == null){
+            JOptionPane.showMessageDialog(this,"Assigned user is null.");
+            return;
+        }
+        
+        
+        if(taskName != null && taskDescription != null && taskPriority != null){
+            
+            Task newTask = new Task(taskManager.getNextTaskId(),taskName, taskDescription, taskPriority, taskDeadline ,"Opened by Admin", assignedUser);
+            taskManager.addTask(taskName, taskDescription, taskPriority, taskDeadline ,"Opened by Admin", assignedUser);
+            
+            displayAllTasks();
+            JOptionPane.showMessageDialog(this,"Task added successfully for user: " + assignedUser);
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Enter all fields");
+        }
+    }//GEN-LAST:event_addBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBtn;
     private javax.swing.JPanel adminPanel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
