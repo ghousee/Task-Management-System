@@ -13,6 +13,8 @@ import View.AdminPage;
 import View.UserPage;
 import javax.swing.JDialog;
 import Model.User;
+import javax.swing.SwingUtilities;
+
 
 
 /**
@@ -23,6 +25,8 @@ public class MainFrame extends javax.swing.JFrame {
     private TaskController taskController;
     private AdminPage adminPage;
     private UserPage userPage;
+    private TaskManager taskManager;
+
 //    private String userRole;
 //    private SignUp signUpPanel;
 //    
@@ -31,11 +35,13 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form LoginPage
      */
     public MainFrame() {
+        String username = "";
         initComponents();
-        String username = "Lorem ipsum";
-        TaskManager taskManager = new TaskManager();
+//        taskManager = new TaskManager();
+        taskManager = new TaskManager();
         SignUp signUpPanel = new SignUp(taskManager, this);
-        adminPage = new AdminPage();
+        adminPage = new AdminPage(taskManager, username);
+
         userPage = new UserPage(taskManager, username);
         
         taskController = new TaskController(adminPage, userPage);
@@ -44,8 +50,9 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.setLayout(cl);
         
         mainPanel.add(loginPanel, "LoginPanel");
-        mainPanel.add(adminPage, "AdminPage");
-        mainPanel.add(userPage,"UserPage");
+//        mainPanel.add(adminPage, "AdminPage");
+//        mainPanel.add(userPage,"UserPage");
+
         mainPanel.add(signUpPanel, "SignUp");
         
     }
@@ -55,14 +62,26 @@ public class MainFrame extends javax.swing.JFrame {
         cl.show(mainPanel,"SignUp");
     }
     
-    public void showAdminPage(){
+    public void showAdminPage(String username){
+        AdminPage adminPage = new AdminPage(taskManager, username);
+        mainPanel.add(adminPage, "AdminPage");
         JOptionPane.showMessageDialog(this, "Going to Admin page");
         cl.show(mainPanel,"AdminPage");
+        taskManager.getTasks();
     }
     
-    public void showUserPage(){
-        JOptionPane.showMessageDialog(this, "Going to User page");
+    public void showUserPage(String username){
+//        TaskManager taskManager = new TaskManager();
+//        if(userPage == null){
+//            userPage = new UserPage(taskManager, username);
+//            mainPanel.add(userPage, "UserPage");
+//        }
+        UserPage userPage = new UserPage(taskManager, username);
+        mainPanel.add(userPage, "UserPage");
+        JOptionPane.showMessageDialog(this, "Going to User page with user: " + username);
         cl.show(mainPanel,"UserPage");
+        userPage.refreshTasks();
+
     }
     
     public void showLoginPage(){
@@ -96,8 +115,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         txtUsername = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         btnSignUp = new javax.swing.JButton();
+        txtPassword = new javax.swing.JPasswordField();
+
 
         popupMenu1.setLabel("popupMenu1");
 
@@ -148,8 +168,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(40, 40, 40)
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsername)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(txtPassword)))
                     .addGroup(loginPanelLayout.createSequentialGroup()
                         .addGap(135, 135, 135)
                         .addComponent(jLabel1)))
@@ -203,55 +223,80 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+        // TODO add your handling code here:
+        showSignUpPanel();
+    }//GEN-LAST:event_btnSignUpActionPerformed
+
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsernameActionPerformed
+
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String username = txtUsername.getText();
+        String loggedInUsername = txtUsername.getText();
+//        String username = txtUsername.getText();
         String password = txtPassword.getText();
-        
-        User user = User.validateUser(username, password);
-        
+
+        User user = User.validateUser(loggedInUsername, password);
+
         if(user != null){
+            String enteredUsername = user.getUsername();
             if(user.getRole().equals("Admin")){
-                showAdminPage();
-            } else{
-                showUserPage();
+//                showAdminPage();
+//                new AdminPage(taskManager, enteredUsername).setVisible(true);
+//                adminPage = new AdminPage(taskManager, loggedInUsername);
+//        
+//                mainPanel.add(adminPage, "AdminPage");
+
+//                userPage.refreshTasks();
+//                cl = new CardLayout();
+//                cl.show(mainPanel, "AdminPage");
+//                showAdminPage();
+                AdminPage adminPage = new AdminPage(taskManager, enteredUsername);
+                mainPanel.add(adminPage,"AdminPage");
+                CardLayout cl1 = (CardLayout) mainPanel.getLayout();
+                cl1.show(mainPanel,"AdminPage");
+                
+            } else if(user.getRole().equals("User")){
+                showUserPage(enteredUsername);
+            }
+            else{
+            JOptionPane.showMessageDialog(this,"Invalid Credentials");;
             }
         }
-        else{
-            JOptionPane.showMessageDialog(this,"Invalid Credentials");;
-        }
-        
-//        if (username.equals("admin") && password.equals("password")) {
-//            userRole = "Admin";
-//            JOptionPane.showMessageDialog(this, "Login successful");
-////            cl.show(mainPanel, "AdminPage");
-//            taskController.displayAllTasks();
-////            mainPanel.add(adminPage);
-//            cl.show(mainPanel,"AdminPage");
-//            }
-////            else {
-////                taskController.displayUserTasks(username);
-////                mainPanel.removeAll();
-////                mainPanel.add(userPage);
-////                mainPanel.revalidate();
-////                mainPanel.repaint();
-////            }
-
-            
-//        else {
-//            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
 
 
-//        if(userRole.equals("Admin")){
-//            setContentPane(adminPage);
-//        }
-//        else{
-//            setContentPane(userPage);
-//        }
-        
-//        revalidate();
-//        repaint();
+        //        if (username.equals("admin") && password.equals("password")) {
+            //            userRole = "Admin";
+            //            JOptionPane.showMessageDialog(this, "Login successful");
+            ////            cl.show(mainPanel, "AdminPage");
+            //            taskController.displayAllTasks();
+            ////            mainPanel.add(adminPage);
+            //            cl.show(mainPanel,"AdminPage");
+            //            }
+        ////            else {
+            ////                taskController.displayUserTasks(username);
+            ////                mainPanel.removeAll();
+            ////                mainPanel.add(userPage);
+            ////                mainPanel.revalidate();
+            ////                mainPanel.repaint();
+            ////            }
+
+        //        else {
+            //            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+            //        }
+
+        //        if(userRole.equals("Admin")){
+            //            setContentPane(adminPage);
+            //        }
+        //        else{
+            //            setContentPane(userPage);
+            //        }
+
+        //        revalidate();
+        //        repaint();
+
     }//GEN-LAST:event_btnLoginActionPerformed
 public CardLayout getCardLayout(){
     return cl;
@@ -260,15 +305,6 @@ public CardLayout getCardLayout(){
 public JPanel getMainPanel(){
     return mainPanel;
 }
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsernameActionPerformed
-
-    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
-        // TODO add your handling code here:
-        showSignUpPanel();
-    }//GEN-LAST:event_btnSignUpActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -313,7 +349,7 @@ public JPanel getMainPanel(){
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
     private java.awt.PopupMenu popupMenu1;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

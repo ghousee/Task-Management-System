@@ -28,7 +28,7 @@ public class TaskController {
     
     public void displayAllTasks(){
         List<Task> tasks = taskManager.getTasks();
-        adminPage.displayTasks(tasks);
+        adminPage.displayAllTasks(tasks);
     }
     private void loadAdminTasks(){
         List<Task> tasks = taskManager.getTasks();
@@ -44,4 +44,15 @@ public class TaskController {
         List<Task> tasks = taskManager.getTasksForUser(username);
         userPage.displayTasks(tasks);
     }
+    
+    public void setUserPage(UserPage userPage){
+        this.userPage = userPage;
+    }
+    
+    public void addTask(String name, String description, String priority, Date deadline, String status, String assignedUser) {
+    taskManager.addTask(name, description, priority, deadline, status, assignedUser);
+    
+    displayUserTasks(assignedUser);
+    }
+
 }

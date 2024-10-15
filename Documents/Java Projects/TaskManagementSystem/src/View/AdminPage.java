@@ -9,8 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Model.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.util.Arrays;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import View.UserPage;
+
+
 
 /**
  *
@@ -18,21 +25,46 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdminPage extends javax.swing.JPanel {
     private DefaultTableModel tableModel;
+    private JTable taskTable;
+    private TaskManager taskManager;
+    private JList<String> taskList;
+    private DefaultListModel<String> taskListModel;
+    private String name;
+//    private JButton btnAddTask, btnEditTask, btnDeleteTask;
+//    private DefaultTableModel tableModel;
+//    private TaskManager taskManager;
+//    private JTable taskTable;
     /**
      * Creates new form AdminPage
      */
-    public AdminPage() {
+    public AdminPage(TaskManager taskManager, String name) {
+        this.taskManager = taskManager;
+        this.name = name;
         initComponents();
-        tableModel = new DefaultTableModel();
+        
+//        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel(new Object[]{"TaskID","Name","Description","Priority","Deadline","Status","Assigned User"},0 );
+        taskTable = new JTable(tableModel);
+        jScrollPane1.setViewportView(taskTable);
+        
+        displayAllTasks();
     }
     
-    public void displayTasks(List<Task> tasks){
+    public void displayAllTasks(){
+        System.out.println("AdminPage(displayAllTasks) method being called");
         tableModel.setRowCount(0);
+        
+        List<Task> tasks = taskManager.getTasks();
+        System.out.println("Tasks retrieved:" + tasks.size());
+        
         for(Task task : tasks){
             Object[] row = {task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()};
-            tableModel.addRow(row);
+            System.out.println("Row data: " + Arrays.toString(row));
+            tableModel.addRow(row);  
         }
+        taskTable.setModel(tableModel);
     }
+    
     
 
     /**
@@ -50,7 +82,8 @@ public class AdminPage extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtdetails = new javax.swing.JTextArea();
-        cmbTasks = new javax.swing.JComboBox<>();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(247, 245, 195));
         setLayout(new java.awt.CardLayout());
@@ -58,7 +91,7 @@ public class AdminPage extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("ALL TASKS");
 
-        btnLoginPage.setText("Home");
+        btnLoginPage.setText("HOME");
         btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginPageActionPerformed(evt);
@@ -72,10 +105,17 @@ public class AdminPage extends javax.swing.JPanel {
         txtdetails.setRows(5);
         jScrollPane1.setViewportView(txtdetails);
 
-        cmbTasks.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "View All", "Create", "Edit", "Delete" }));
-        cmbTasks.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setText("EDIT");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbTasksActionPerformed(evt);
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -83,50 +123,48 @@ public class AdminPage extends javax.swing.JPanel {
         adminPanel.setLayout(adminPanelLayout);
         adminPanelLayout.setHorizontalGroup(
             adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 664, Short.MAX_VALUE)
+            .addGroup(adminPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
+                .addContainerGap(244, Short.MAX_VALUE)
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(adminPanelLayout.createSequentialGroup()
+                        .addComponent(btnEdit)
+                        .addGap(76, 76, 76)
+                        .addComponent(btnDelete)
+                        .addGap(81, 81, 81)
+                        .addComponent(btnLoginPage)))
+                .addGap(47, 47, 47))
             .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(adminPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(adminPanelLayout.createSequentialGroup()
-                            .addGap(44, 44, 44)
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 452, Short.MAX_VALUE)
-                            .addComponent(btnLoginPage))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cmbTasks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(44, 44, 44))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPanelLayout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(146, 146, 146)))
-                    .addContainerGap()))
+                    .addGap(44, 44, 44)
+                    .addComponent(jLabel1)
+                    .addContainerGap(530, Short.MAX_VALUE)))
         );
         adminPanelLayout.setVerticalGroup(
             adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 549, Short.MAX_VALUE)
+            .addGroup(adminPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(40, 40, 40)
+                .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLoginPage)
+                    .addComponent(btnEdit)
+                    .addComponent(btnDelete))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(adminPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel2)
-                    .addGap(33, 33, 33)
-                    .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
-                        .addComponent(btnLoginPage))
-                    .addGap(82, 82, 82)
-                    .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cmbTasks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(75, Short.MAX_VALUE)))
+                    .addGap(71, 71, 71)
+                    .addComponent(jLabel1)
+                    .addContainerGap(453, Short.MAX_VALUE)))
         );
 
         add(adminPanel, "card2");
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cmbTasksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTasksActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbTasksActionPerformed
 
     private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed
         // TODO add your handling code here:
@@ -137,11 +175,69 @@ public class AdminPage extends javax.swing.JPanel {
         cl.show(mainPanel,"LoginPanel");
     }//GEN-LAST:event_btnLoginPageActionPerformed
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        
+        int selectedRow = taskTable.getSelectedRow();
+        if(selectedRow >= 0){
+            
+            String taskIdString = tableModel.getValueAt(selectedRow,0).toString();
+            int taskId = Integer.parseInt(taskIdString.replaceAll("\\D",""));
+            
+            Task task = taskManager.getTaskById(taskId);
+            
+            if(task != null){
+//                String taskName = tableModel.getValueAt(selectedRow,1).toString();
+//                String taskDescription = tableModel.getValueAt(selectedRow,2).toString();
+//                String taskPriority = tableModel.getValueAt(selectedRow,3).toString();
+
+                String taskName = JOptionPane.showInputDialog("Edit task name:" + task.getName());
+                String taskDescription = JOptionPane.showInputDialog("Edit task description:" + task.getDescription());
+                String taskPriority = JOptionPane.showInputDialog("Edit task priority:" + task.getPriority());
+
+                task.setName(taskName);
+                task.setDescription(taskDescription);
+                task.setPriority(taskPriority);
+                displayAllTasks();
+                JOptionPane.showMessageDialog(this,"Task updated successfully.");
+            } else{
+                JOptionPane.showMessageDialog(this,"Task not foundd");
+            }
+                    
+        } else {
+            JOptionPane.showMessageDialog(this,"Selecr a task to edit");
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = taskTable.getSelectedRow();
+
+        if(selectedRow >= 0){
+            int taskId = Integer.parseInt(tableModel.getValueAt(selectedRow,0).toString());
+            Task task = taskManager.getTaskById(taskId);
+            
+            if(task!=null){
+                int confirm = JOptionPane.showConfirmDialog(this,"Are you sure you want to delete this task?");
+                if(confirm == JOptionPane.YES_OPTION){
+                    taskManager.deleteTaskById(taskId);
+                    displayAllTasks();
+                    JOptionPane.showMessageDialog(this,"Task deleted successfully.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this,"Select Task to delete");
+            }
+        }
+            
+            
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel adminPanel;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnLoginPage;
-    private javax.swing.JComboBox<String> cmbTasks;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
