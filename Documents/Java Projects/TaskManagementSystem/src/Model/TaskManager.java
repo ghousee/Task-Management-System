@@ -66,6 +66,7 @@ public class TaskManager {
         users.add(newUser);
         System.out.println("TaskManager(addUser) User Added: " + username);
         System.out.println("TaskManager(addUser) Total users: " + users.size());
+
     }
     
     public User getUserByUsernameAndPassword(String username, String password) {
@@ -190,5 +191,11 @@ public class TaskManager {
 //            System.out.println("Error loading tasks from file: " + e.getMessage());
 //        }
 //    }
+    
+    private int nextTaskId = 1;
+    
+    public int getNextTaskId(){
+        return nextTaskId++;
+    }
     
 }
