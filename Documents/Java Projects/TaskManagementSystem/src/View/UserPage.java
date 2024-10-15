@@ -28,7 +28,6 @@ public class UserPage extends javax.swing.JPanel {
     private TaskManager taskManager;
     private JList<String> taskList;
     private DefaultListModel<String> taskListModel;
-//    private JButton btnAddTask, btnEditTask, btnDeleteTask;
     private DefaultTableModel tableModel;
     private JTable taskTable;
 
@@ -45,9 +44,6 @@ public class UserPage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(taskTable);
         
         lblName.setText("Logged in as: " + loggedInUsername);
-        
-//        List<Task> userTasks = taskManager.getTasksForUser(loggedInUsername);
-//        displayTasks(userTasks);
         refreshTasks();
     }
     
@@ -65,24 +61,6 @@ public class UserPage extends javax.swing.JPanel {
             System.out.println("No tasks found for user: " + loggedInUsername);
         }
     }
-
-
-    
-    
-    
-    
-//    public void refreshTasks(){
-//        tableModel.setRowCount(0);
-//        
-//        List<Task> userTasks = taskManager.getTasksForUser(loggedInUsername);
-//        System.out.println("refreshTasks  Tasks retrieved for user " + loggedInUsername + ": " + userTasks.size());
-//        
-//        for(Task task : userTasks){
-//            tableModel.addRow(new Object[]{
-//                task.getName(), task.getDescription(), task.getPriority(), task.getDeadline(), task.getStatus(), task.getAssignedUser()
-//            });
-//        }
-//    }
     
     public void refreshTasks(){
         List<Task> userTasks = taskManager.getTasksForUser(loggedInUsername);
@@ -199,19 +177,12 @@ public class UserPage extends javax.swing.JPanel {
         String taskPriority = JOptionPane.showInputDialog("Enter task priority(Low,Medium,High):");
         Date taskDeadline = new Date();
         String taskStatus = "Pending";
-//        String assignedUser = username;
         System.out.println("UserPage(AddBTN)Adding task for user in ADD Task USERPAGE: "+loggedInUsername);
 
         
-//        Task newTask = new Task(taskManager.getNextTaskId(),taskName, taskDescription, taskPriority, taskDeadline, taskStatus, loggedInUsername);
-//        
-//        taskManager.addTask(newTask);
         taskManager.addTask(taskName, taskDescription, taskPriority, taskDeadline, taskStatus, loggedInUsername);
         List<Task> updatedTasks = taskManager.getTasksForUser(loggedInUsername);
-//        refreshTasks();
         displayTasks(updatedTasks);
-        
-//        List<Task> userTasks = taskManager.getTasksForUser(username);
         displayTasks(taskManager.getTasksForUser(loggedInUsername));
     }//GEN-LAST:event_btnAddTaskActionPerformed
 
@@ -220,7 +191,7 @@ public class UserPage extends javax.swing.JPanel {
         int selectedRow = taskTable.getSelectedRow();
         if (selectedRow >= 0) {
             int taskId = (int)tableModel.getValueAt(selectedRow, 0);
-            System.out.println("Attempting to edit task: " + taskId); // Debugging line
+            System.out.println("Attempting to edit task: " + taskId);
 
             Task task = taskManager.getTaskById(taskId);
             if (task != null) {

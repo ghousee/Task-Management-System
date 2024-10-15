@@ -28,10 +28,6 @@ public class SignUp extends javax.swing.JPanel {
         this.taskManager = taskManager;
         this.mainFrame = mainFrame;
         initComponents();
-//                userPage = new UserPage(taskManager, username);
-
-//        TaskManager taskManager = new TaskManager();
-
     }
    
     
@@ -70,8 +66,6 @@ public class SignUp extends javax.swing.JPanel {
             
             mainFrame.showAdminPage(username);
         } else if(role.equalsIgnoreCase("User")){
-//            userPage = new UserPage(taskManager, username);
-//            mainFrame.getMainPanel().add(userPage, "userPage");
             mainFrame.showUserPage(username);
         } else {
             JOptionPane.showMessageDialog(this, "Enter proper role(Admin/User):");
@@ -83,13 +77,6 @@ public class SignUp extends javax.swing.JPanel {
         if(role.trim().equals("User") || role.trim().equals("Admin")){
             return true;
         }
-
-//        String[] validRoles = {"Admin", "User"}; 
-//        for (String validRole : validRoles) {
-//            if (validRole.equalsIgnoreCase(role)) {
-//                return true; 
-//            }
-//        }
         return false; 
     }
 
@@ -213,15 +200,6 @@ public class SignUp extends javax.swing.JPanel {
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
         handleSignUp();
-        
-        
-
-//        JOptionPane.showMessageDialog(this,"Sign Up successfull.");
-        
-//        CardLayout cl = mainFrame.getCardLayout();
-//        cl.show(mainFrame.getContentPane(),"UserPage");
-
-//    mainFrame.showAdminPage();
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed

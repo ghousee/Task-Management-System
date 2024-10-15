@@ -24,10 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
     private TaskController taskController;
     private AdminPage adminPage;
     private UserPage userPage;
-    private TaskManager taskManager;
-//    private String userRole;
-//    private SignUp signUpPanel;
-//    
+    private TaskManager taskManager;   
     private CardLayout cl;
     /**
      * Creates new form LoginPage
@@ -35,7 +32,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         String username = "";
         initComponents();
-//        taskManager = new TaskManager();
         taskManager = new TaskManager();
         SignUp signUpPanel = new SignUp(taskManager, this);
         adminPage = new AdminPage(taskManager, username);
@@ -67,11 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public void showUserPage(String username){
-//        TaskManager taskManager = new TaskManager();
-//        if(userPage == null){
-//            userPage = new UserPage(taskManager, username);
-//            mainPanel.add(userPage, "UserPage");
-//        }
+
         UserPage userPage = new UserPage(taskManager, username);
         mainPanel.add(userPage, "UserPage");
         JOptionPane.showMessageDialog(this, "Going to User page with user: " + username);
@@ -229,7 +221,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         String loggedInUsername = txtUsername.getText();
-//        String username = txtUsername.getText();
         String password = txtPassword.getText();
 
         User user = User.validateUser(loggedInUsername, password);
@@ -237,16 +228,6 @@ public class MainFrame extends javax.swing.JFrame {
         if(user != null){
             String enteredUsername = user.getUsername();
             if(user.getRole().equals("Admin")){
-//                showAdminPage();
-//                new AdminPage(taskManager, enteredUsername).setVisible(true);
-//                adminPage = new AdminPage(taskManager, loggedInUsername);
-//        
-//                mainPanel.add(adminPage, "AdminPage");
-
-//                userPage.refreshTasks();
-//                cl = new CardLayout();
-//                cl.show(mainPanel, "AdminPage");
-//                showAdminPage();
                 AdminPage adminPage = new AdminPage(taskManager, enteredUsername);
                 mainPanel.add(adminPage,"AdminPage");
                 CardLayout cl1 = (CardLayout) mainPanel.getLayout();
@@ -259,37 +240,6 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Invalid Credentials");;
             }
         }
-
-
-        //        if (username.equals("admin") && password.equals("password")) {
-            //            userRole = "Admin";
-            //            JOptionPane.showMessageDialog(this, "Login successful");
-            ////            cl.show(mainPanel, "AdminPage");
-            //            taskController.displayAllTasks();
-            ////            mainPanel.add(adminPage);
-            //            cl.show(mainPanel,"AdminPage");
-            //            }
-        ////            else {
-            ////                taskController.displayUserTasks(username);
-            ////                mainPanel.removeAll();
-            ////                mainPanel.add(userPage);
-            ////                mainPanel.revalidate();
-            ////                mainPanel.repaint();
-            ////            }
-
-        //        else {
-            //            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-            //        }
-
-        //        if(userRole.equals("Admin")){
-            //            setContentPane(adminPage);
-            //        }
-        //        else{
-            //            setContentPane(userPage);
-            //        }
-
-        //        revalidate();
-        //        repaint();
     }//GEN-LAST:event_btnLoginActionPerformed
 public CardLayout getCardLayout(){
     return cl;

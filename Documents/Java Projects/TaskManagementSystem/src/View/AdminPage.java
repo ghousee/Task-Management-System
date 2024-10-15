@@ -30,10 +30,7 @@ public class AdminPage extends javax.swing.JPanel {
     private JList<String> taskList;
     private DefaultListModel<String> taskListModel;
     private String name;
-//    private JButton btnAddTask, btnEditTask, btnDeleteTask;
-//    private DefaultTableModel tableModel;
-//    private TaskManager taskManager;
-//    private JTable taskTable;
+
     /**
      * Creates new form AdminPage
      */
@@ -42,7 +39,6 @@ public class AdminPage extends javax.swing.JPanel {
         this.name = name;
         initComponents();
         
-//        DefaultTableModel tableModel = new DefaultTableModel();
         tableModel = new DefaultTableModel(new Object[]{"TaskID","Name","Description","Priority","Deadline","Status","Assigned User"},0 );
         taskTable = new JTable(tableModel);
         jScrollPane1.setViewportView(taskTable);
@@ -184,13 +180,10 @@ public class AdminPage extends javax.swing.JPanel {
             String taskIdString = tableModel.getValueAt(selectedRow,0).toString();
             int taskId = Integer.parseInt(taskIdString.replaceAll("\\D",""));
             
+            
             Task task = taskManager.getTaskById(taskId);
             
             if(task != null){
-//                String taskName = tableModel.getValueAt(selectedRow,1).toString();
-//                String taskDescription = tableModel.getValueAt(selectedRow,2).toString();
-//                String taskPriority = tableModel.getValueAt(selectedRow,3).toString();
-
                 String taskName = JOptionPane.showInputDialog("Edit task name:" + task.getName());
                 String taskDescription = JOptionPane.showInputDialog("Edit task description:" + task.getDescription());
                 String taskPriority = JOptionPane.showInputDialog("Edit task priority:" + task.getPriority());
@@ -246,5 +239,6 @@ public class AdminPage extends javax.swing.JPanel {
 
     public void displayAllTasks(List<Task> tasks) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 }
