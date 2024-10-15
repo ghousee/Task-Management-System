@@ -20,7 +20,6 @@ import java.util.List;
  * @author mgmoh
  */
 public class TaskManager {
-//    private static final long serialVersionUID = 1L;
     private List<Task> tasks;
     private List<User> users;
     private int nextTaskId = 1;
@@ -28,10 +27,6 @@ public class TaskManager {
     
     public TaskManager(){
         tasks = new ArrayList<>();
-//        users = new ArrayList<>();
-
-//        loadTasksFromFile();
-//        nextTaskId = tasks.size() > 0 ? tasks.get(tasks.size() - 1).getId() + 1 : 1;
     }
     
     public void addTask(String name, String description, String priority, Date deadline, String status, String assignedUser){
@@ -152,50 +147,11 @@ public class TaskManager {
         if (tasks.get(i).getId() == id) {
             tasks.remove(i);
             break;
+            }
         }
     }
-}
-    
-//    public List<Task> getTasksForUser(String username){
-//        List<Task> userTasks = new ArrayList<>();
-//        for(Task task : tasks){
-//            if(task.getAssignedUser().equals(username)){
-//                userTasks.add(task);
-//            }
-//        }
-//        return userTasks;
-//    }
-    
-    
     
     public int getNextTaskId(){
         return nextTaskId++;
     }
-    
-//        private void saveTasksToFile() {
-//        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("tasks.ser"))) {
-//            oos.writeObject(tasks);
-//            System.out.println("Tasks saved to file.");
-//        } catch (IOException e) {
-//            System.out.println("Error saving tasks to file: " + e.getMessage());
-//        }
-//    }
-//
-//    // Load tasks from a file
-//    @SuppressWarnings("unchecked")
-//    private void loadTasksFromFile() {
-//        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("tasks.ser"))) {
-//            tasks = (List<Task>) ois.readObject();
-//            System.out.println("Tasks loaded from file.");
-//        } catch (IOException | ClassNotFoundException e) {
-//            System.out.println("Error loading tasks from file: " + e.getMessage());
-//        }
-//    }
-    
-    private int nextTaskId = 1;
-    
-    public int getNextTaskId(){
-        return nextTaskId++;
-    }
-    
 }
