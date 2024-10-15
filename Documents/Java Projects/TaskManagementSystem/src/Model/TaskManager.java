@@ -61,6 +61,7 @@ public class TaskManager {
         users.add(newUser);
         System.out.println("TaskManager(addUser) User Added: " + username);
         System.out.println("TaskManager(addUser) Total users: " + users.size());
+
     }
     
     public User getUserByUsernameAndPassword(String username, String password) {
@@ -153,5 +154,4 @@ public class TaskManager {
     public int getNextTaskId(){
         return nextTaskId++;
     }
-    
 }

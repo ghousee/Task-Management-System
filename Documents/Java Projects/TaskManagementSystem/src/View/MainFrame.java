@@ -16,6 +16,7 @@ import Model.User;
 import javax.swing.SwingUtilities;
 
 
+
 /**
  *
  * @author NATE
@@ -25,6 +26,7 @@ public class MainFrame extends javax.swing.JFrame {
     private AdminPage adminPage;
     private UserPage userPage;
     private TaskManager taskManager;   
+
     private CardLayout cl;
     /**
      * Creates new form LoginPage
@@ -35,6 +37,7 @@ public class MainFrame extends javax.swing.JFrame {
         taskManager = new TaskManager();
         SignUp signUpPanel = new SignUp(taskManager, this);
         adminPage = new AdminPage(taskManager, username);
+
         userPage = new UserPage(taskManager, username);
         
         taskController = new TaskController(adminPage, userPage);
@@ -45,6 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(loginPanel, "LoginPanel");
 //        mainPanel.add(adminPage, "AdminPage");
 //        mainPanel.add(userPage,"UserPage");
+
         mainPanel.add(signUpPanel, "SignUp");
         
     }
@@ -69,6 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Going to User page with user: " + username);
         cl.show(mainPanel,"UserPage");
         userPage.refreshTasks();
+
     }
     
     public void showLoginPage(){
@@ -104,6 +109,7 @@ public class MainFrame extends javax.swing.JFrame {
         txtUsername = new javax.swing.JTextField();
         btnSignUp = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
+
 
         popupMenu1.setLabel("popupMenu1");
 

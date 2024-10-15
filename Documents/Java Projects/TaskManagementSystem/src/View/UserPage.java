@@ -26,6 +26,7 @@ import View.MainFrame;
 public class UserPage extends javax.swing.JPanel {
     private String loggedInUsername;
     private TaskManager taskManager;
+
     private JList<String> taskList;
     private DefaultListModel<String> taskListModel;
     private DefaultTableModel tableModel;
@@ -45,6 +46,7 @@ public class UserPage extends javax.swing.JPanel {
         
         lblName.setText("Logged in as: " + loggedInUsername);
         refreshTasks();
+
     }
     
     public void displayTasks(List<Task> tasks){
@@ -84,6 +86,7 @@ public class UserPage extends javax.swing.JPanel {
         btnEditTask = new javax.swing.JButton();
         btnDeleteTask = new javax.swing.JButton();
         lblName = new javax.swing.JLabel();
+
 
         setBackground(new java.awt.Color(206, 206, 239));
 
@@ -132,6 +135,7 @@ public class UserPage extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(70, 70, 70)
@@ -146,6 +150,7 @@ public class UserPage extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addGap(80, 80, 80)
                         .addComponent(btnLoginPage)))
+
                 .addGap(76, 76, 76))
             .addComponent(jScrollPane1)
         );
@@ -160,12 +165,14 @@ public class UserPage extends javax.swing.JPanel {
                         .addComponent(jLabel2)))
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+
                     .addComponent(jLabel1)
                     .addComponent(btnAddTask)
                     .addComponent(btnDeleteTask)
                     .addComponent(btnEditTask))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
+
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -184,6 +191,7 @@ public class UserPage extends javax.swing.JPanel {
         List<Task> updatedTasks = taskManager.getTasksForUser(loggedInUsername);
         displayTasks(updatedTasks);
         displayTasks(taskManager.getTasksForUser(loggedInUsername));
+
     }//GEN-LAST:event_btnAddTaskActionPerformed
 
     private void btnEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTaskActionPerformed
@@ -208,6 +216,7 @@ public class UserPage extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Select a task to edit.");
         }
 
+
     }//GEN-LAST:event_btnEditTaskActionPerformed
 
     private void btnDeleteTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTaskActionPerformed
@@ -229,6 +238,7 @@ public class UserPage extends javax.swing.JPanel {
             
             JOptionPane.showMessageDialog(this,"Select a task to delete");
         }
+
     }//GEN-LAST:event_btnDeleteTaskActionPerformed
 
     private void btnLoginPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginPageActionPerformed
