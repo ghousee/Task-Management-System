@@ -87,13 +87,13 @@ public class UserPage extends javax.swing.JPanel {
         btnDeleteTask = new javax.swing.JButton();
         lblName = new javax.swing.JLabel();
 
-
-        setBackground(new java.awt.Color(206, 206, 239));
+        setBackground(new java.awt.Color(248, 230, 149));
 
         txtDetails.setColumns(20);
         txtDetails.setRows(5);
         jScrollPane1.setViewportView(txtDetails);
 
+        btnLoginPage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLoginPage.setText("HOME");
         btnLoginPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +107,7 @@ public class UserPage extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel2.setText("USER PANEL");
 
+        btnAddTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAddTask.setText("Add");
         btnAddTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +115,7 @@ public class UserPage extends javax.swing.JPanel {
             }
         });
 
+        btnEditTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEditTask.setText("Edit");
         btnEditTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +123,7 @@ public class UserPage extends javax.swing.JPanel {
             }
         });
 
+        btnDeleteTask.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDeleteTask.setText("Delete");
         btnDeleteTask.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +138,6 @@ public class UserPage extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(70, 70, 70)
@@ -150,7 +152,6 @@ public class UserPage extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addGap(80, 80, 80)
                         .addComponent(btnLoginPage)))
-
                 .addGap(76, 76, 76))
             .addComponent(jScrollPane1)
         );
@@ -165,14 +166,12 @@ public class UserPage extends javax.swing.JPanel {
                         .addComponent(jLabel2)))
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-
                     .addComponent(jLabel1)
                     .addComponent(btnAddTask)
                     .addComponent(btnDeleteTask)
                     .addComponent(btnEditTask))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
-
         );
     }// </editor-fold>//GEN-END:initComponents
 
